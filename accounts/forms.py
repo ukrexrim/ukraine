@@ -206,6 +206,7 @@ class UserAddressForm(forms.ModelForm):
         ('PT', 'Portugal'),
         ('QA', 'Qatar'),
         ('RO', 'Romania'),
+        ('UK', 'United Kingdom'),
     ]
 
     
