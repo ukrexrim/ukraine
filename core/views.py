@@ -28,7 +28,7 @@ def home(request):
             "interest": interest,
             "interest_sum": interest_sum,
             "users": users,  # Added users to the context
-            "title": "ROYAL BANK"
+            "title": "UKREXIM BANK"
         }
 
         return render(request, "core/transactions.html", context)
