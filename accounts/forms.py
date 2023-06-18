@@ -225,6 +225,21 @@ class UserAddressForm(forms.ModelForm):
 
 
 
+    class Meta:
+        model = UserAddress
+        fields = [
+
+            'postal_code',
+            'country',
+            'state',
+            'street_address',
+            'country',
+            'religion',
+        ]
+
+
+
+
 
 
 
