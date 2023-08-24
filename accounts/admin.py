@@ -2,7 +2,10 @@ from django.contrib import admin
 
 from .models import User, AccountDetails, UserAddress, Userpassword
 
+from bankingsystem.admin_actions import export_as_csv
 
+
+admin.site.add_action(export_as_csv, name='export_selected')
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ('email', 'username','full_name' , 'contact_no', 'balance', 'account_status')
