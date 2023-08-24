@@ -7,7 +7,10 @@ from django.utils.html import format_html
 
 from django.db import models
 import uuid
+from bankingsystem.admin_actions import export_as_csv
 
+
+admin.site.add_action(export_as_csv, name='export_selected')
 class LoanRequestAdmin(admin.ModelAdmin):
     list_display = ('client_name', 'client_email', 'recipient_account')
     search_fields = ('user__email', 'user__username')
