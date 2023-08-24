@@ -1,0 +1,238 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<br><br><br>
+<style>
+  /* Common Styles */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px;
+  }
+
+  /* Card List Styles */
+  .card-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    animation: fade-in 1s ease-in-out;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Card Styles */
+  .card {
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    border: 1px solid #e0e0e0;
+  }
+
+  .card:hover {
+    transform: translateY(-8px);
+  }
+
+  .card:before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+  }
+
+  .card-header {
+    background: linear-gradient(45deg, #ff8177, #ff867a);
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+  }
+
+  .card-body {
+    padding: 20px;
+  }
+
+  .card-number {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+  }
+
+  .copy-button {
+    background-color: transparent;
+    border: none;
+    color: #ff6f61;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+  }
+
+  .card-cvv {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .card-expiry {
+    font-size: 14px;
+  }
+
+  .card-owner {
+    font-size: 14px;
+    margin-top: 15px;
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .container {
+      padding: 10px; /* Adjusted padding for smaller screens */
+    }
+
+    .card-list {
+      gap: 2px; /* Smaller gap for mobile screens */
+    }
+
+    .card {
+      width: calc(120% - 90px); /* Two cards per row */
+      height: calc(120% - 90px); /* Two cards per row */
+    }
+
+    .card-header {
+      font-size: 16px; /* Slightly smaller font size */
+    }
+
+    .card-number {
+      font-size: 16px; /* Slightly smaller font size */
+    }
+
+    .card-cvv,
+    .card-expiry,
+    .card-owner {
+      font-size: 12px;
+    }
+
+    .card-body {
+      padding: 15px; /* Adjusted padding for smaller screens */
+    }
+
+    .copy-button {
+      font-size: 12px; /* Smaller font size */
+    }
+  }
+</style>
+
+<!-- Rest of the HTML content remains the same -->
+
+
+<div class="card-list">
+  {% if user.carddetails_set.all %}
+    {% for card in user.carddetails_set.all %}
+      <div class="card">
+        <div class="decorative-shapes"></div>
+        <div class="card-header">
+          <i class="fas fa-credit-card fa-icon"></i>{{ card.get_card_type_display|title }}
+        </div>
+        <div class="card-body">
+          <p class="card-number">**** &bull;&bull;&bull;&bull; {{ card.card_number|slice:"-4" }}</p>
+          <button class="copy-button" data-clipboard-target=".card-number">Copy Card Number</button>
+          <p class="card-cvv">
+            <i class="fas fa-lock fa-icon"></i>CVV: <span class="cvv">{{ card.cvv }}</span>
+            <button class="copy-button" data-clipboard-target=".cvv">Copy CVV</button>
+          </p>
+          <p class="card-expiry">
+            <i class="far fa-calendar-alt fa-icon"></i>Expiry: {{ card.expiry_date }}
+          </p>
+          <p class="card-owner">
+            <i class="far fa-user fa-icon"></i>Cardholder: {{ card.card_owner }}
+          </p>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>You haven't added any cards yet. Get started now!</p>
+  {% endif %}
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script>
+  var clipboard = new ClipboardJS('.copy-button');
+
+  clipboard.on('success', function(e) {
+    e.clearSelection();
+    alert('Copied to clipboard!');
+  });
+
+  clipboard.on('error', function(e) {
+    alert('Copy failed. Please select the text and copy manually.');
+  });
+</script>
+
+
+                <div class="nk-content nk-content-fluid">
+                    <div class="container-xl wide-lg">
+                        <div class="nk-content-body">
+                            <div class="kyc-app wide-sm m-auto">
+                                <div class="nk-block-head nk-block-head-lg wide-xs mx-auto">
+                                    <div class="nk-block-head-content text-center">
+                                        <h2 class="nk-block-title fw-normal">Visual Debit Card</h2>
+                                        <div class="nk-block-des">
+                                            <p>Specially designed for your online transactions.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- nk-block-head -->
+                                <div class="nk-block">
+                                    <div class="card card-bordered">
+                                        <div class="card-inner card-inner-lg">
+                                            <div class="nk-kyc-app p-sm-2 text-center">
+                                                <div class="nk-kyc-app-icon">
+                                                    <em class="icon ni ni-cc-new text-primary"></em>
+                                                </div>
+                                                <div class="nk-kyc-app-text mx-auto">
+                                                    <p class="lead">The UKREXIM Virtual Debit Card is a digital payment card designed to facilitate frequent online shoppers with a secure and flexible alternative to physical payment cards. The virtual
+                                                        card is instantly issued opon request.</p>
+                                                </div>
+                                                <div class="nk-kyc-app-action">
+                                                    <a href="{% url 'bankcard:card_request' %}" class="btn btn-lg btn-primary"><em class="icon ni ni-cc-new"></em> Request for a New Virtual Card</a>
+                                                </div>
+                                                <p class="nk-kyc-app-action" style="margin-top: 10px;">
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center pt-4">
+                                        <p>If you have any question, please contact our support team <a href="{% url 'transactions:ticket' %}">info@ukreximbank.ltd</a></p>
+                                    </div>
+                                </div>
+                                <!-- nk-block -->
+                            </div>
+                            <!-- kyc-app -->
+                        </div>
+                    </div>
+                </div>
+{% endblock %}
