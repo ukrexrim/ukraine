@@ -2,7 +2,9 @@
 import os
 from pathlib import Path
 import django_heroku
-
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -167,6 +169,14 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 django_heroku.settings(locals())
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+cloudinary.config( 
+  cloud_name = "dwpqoubdw", 
+  api_key = "746427962229227", 
+  api_secret = "Mw778m_arBap_WKexphIdoar0dw" 
+)
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 
